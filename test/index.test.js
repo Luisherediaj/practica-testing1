@@ -1,4 +1,4 @@
-import { sumar, restar, multiplicar, dividir, isFalse, isNull, isTrue, isUndefined, arrDias, arrProvincias } from '../index.js';
+import { sumar, restar, multiplicar, dividir, isFalse, isNull, isTrue, isUndefined, arrDias, arrProvincias, objExpReg } from '../index.js';
 
 //test unitarios
 
@@ -67,6 +67,8 @@ describe ('Matchers boolean, undefined o null', () => {
     });
 });
 
+// test matchs arrays
+
 describe('Matchers Arrays', () => { 
     test('Madrid existe en el array', () => {
         expect(arrProvincias()).toContain('Madrid');
@@ -77,4 +79,35 @@ describe('Matchers Arrays', () => {
     test('El array semana tiene 9 elementos', () => {
         expect(arrProvincias()).toHaveLength(9);
     })
+    test('Existe el Lunes en el array semana', () => {
+        expect(arrDias()).toContain('Lunes');
+    });
 });
+
+// test matchers strings
+
+describe('Matchers Strings', () => {
+    const exp = objExpReg();
+    test('Comprobamos si la respuesta es correcta', () => {
+        expect(exp.responseOK).toMatch(/OK/);
+    });
+    test('Comprobamos si la respuesta es incorrecta', () => {
+        expect(exp.responseFAIL).toMatch(/FAIL/);
+    });
+    test('Comprobamos si la respuesta tiene una longitud', () => {
+        expect(exp.responseFAIL).toHaveLength(13);
+    });
+    test('Comprobamos direccion de email', () => {
+        expect(exp.email).toMatch(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/);
+    });
+    test('Comprobamos número de teléfono', () => {
+        expect(exp.telefono).toMatch(/^[9|6|7][0-9]{8}$/);
+    });
+});
+
+// opciones para ejecutarse antes, durante o despues de las pruebas
+
+afterEach(() => console.log('Despues de cada prueba'));
+afterAll(() => console.log('Despues de todas las pruebas'));
+beforeEach(() => console.log('Antes de cada prueba'));
+beforeAll(() => console.log('Antes de todas las pruebas'));
